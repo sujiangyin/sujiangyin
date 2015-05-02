@@ -1,0 +1,98 @@
+1、输出可以用C语言格式。
+# Variables and expressions.
+a = 10
+b = 3 * a + 2
+printf("%d %d\n", a, b);
+#整数
+
+# Type is dynamic.
+b = "A string"
+c = 'Another String'
+print b + " and " + c + "\n"
+#字符串
+
+3、您可以通过在方法名称前加上模块名称和一条下划线来调用模块方法。您可以使用模块名称和两个冒号来引用一个常量。
+:: 是一元运算符，允许在类或模块内定义常量、实例方法和类方法，可以从类或模块外的任何地方进行访问。
+请记住：在 Ruby 中，类和方法也可以被当作常量。
+您只需要在表达式的常量名前加上 :: 前缀，即可返回适当的类或模块对象。
+如果未使用前缀表达式，则默认使用主 Object 类。
+下面是两个实例：
+
+MR_COUNT = 0        # 定义在主 Object 类上的常量
+module Foo
+  MR_COUNT = 0
+  ::MR_COUNT = 1    # 设置全局计数为 1
+  MR_COUNT = 2      # 设置局部计数为 2
+end
+puts MR_COUNT       # 这是全局常量
+puts Foo::MR_COUNT  # 这是 "Foo" 的局部常量 。
+
+4、单引号和双引号的区别：
+  a = 17
+  print "a = #{a}\n";——a=17
+  print 'a = #{a}\n';——a = #{a}\n；直接输出字符串。
+
+（通过一般的分隔字符串，您可以在以百分号字符（%）为前导的一对匹配的任意分隔字符（例如，!、 (、 {、 <，等等）内创建字符串。Q、 q 和 x 有特殊的意义。一般的分隔字符串可以是：
+
+%{Ruby is fun.}  相当于 "Ruby is fun."
+%Q{ Ruby is fun. } 相当于 " Ruby is fun. "
+%q[Ruby is fun.]  相当于以单引号字符串
+%x!ls! 相当于反勾号命令输出 `ls`）
+5、puts和print的区别：
+ puts——有自动换行功能。
+ print——无自动换行功能。
+
+6、多行注入字符串：
+   # If you're verbose, you can create a multi-line string like this.
+b = <<ENDER
+This is a longer string,
+perhaps some instructions or agreement
+goes here.  By the way,
+a = #{a}.
+ENDER
+
+print "\n[[[" + b + "]]]\n";
+
+7、size或者length返回数组长度。
+8、字符串本身是一个数组。
+  s = "Hi there.  How are you?"
+  print s.length, " [" + s + "]\n"
+
+# Selecting a character in a string gives an integer ascii code.
+print s[4], "\n"
+printf("%c\n", s[4])#返回：h
+
+# The [n,l] substring gives the starting position and length.  The [n..m]
+# form gives a range of positions, inclusive.
+print "[" + s[4,4] + "] [" + s[6..15] + "]\n"
+#这里s[4,4]表从第四个位置开始的4个字符。包括空格。
+   s[6..15]表第6到第15的位置的字符。
+
+print "Wow " * 3, "\n"
+(#这里有两种方法多次打印wow
+1）、上面
+2）、# Use a times-loop.
+4.times do
+   print "a"
+end
+
+# Use a times iterator with an iteration variable.
+5.times do |i|
+    print i
+end
+
+Output
+aaaa01234)
+
+print s.index("there"), " ", s.index("How"), " ", s.index("bogus"), "\n"
+#这里的index是单词的第一个字符的index
+print s.reverse, "\n"
+#反转。
+
+9、多行注释
+=begin
+这是注释。
+这也是注释。
+这也是注释。
+这还是注释。
+=end
