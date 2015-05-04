@@ -10,3 +10,39 @@ $.each( myArray, function( i, item ) {
  
 });
 ```
+2、Don’t Act on Absent Elements。
+不要在空元素上操作：
+坏的：
+```js
+/ Bad: This runs three functions before it
+// realizes there's nothing in the selection
+$( "#nosuchthing" ).slideUp();
+```
+好一点的：
+```js
+// Better:
+var elem = $( "#nosuchthing" );
+ 
+if ( elem.length ) {
+ 
+    elem.slideUp();
+ 
+}
+```
+最好的：
+```js
+// Best: Add a doOnce plugin.
+jQuery.fn.doOnce = function( func ) {
+ 
+    this.length && func.apply( this );
+ 
+    return this;
+ 
+}
+ 
+$( "li.cartitems" ).doOnce(function() { 
+ 
+    // make it ajax! \o/ 
+ 
+});
+```
