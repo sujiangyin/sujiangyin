@@ -28,5 +28,19 @@ alert( $( "body" ).data( "bar" ) ); // foobar
 
 7、$的变量名往往表示一个jquery对象，可以直接调用jquery函数；有些jquery函数返回一个jquery对象，比如html();而有些则返回非jquery对象。再次用其来使用jquery函数时候要用$()方法转换成jquery对象。
 
-8、
+8、$this=$(this)
+
+9、tab和空格
+
+10、tag.class  选择器的细化，右边。更快。
+
+11、$.fn.fun和$.的区别
+去掉fn是使方法全局化。
+
+12、id可以更快，但是在js中为了避免重用性，最好用class。
+
+13、加一个return this.each，可以让当有多个元素时，对每个元素起作用。不然，可能如果是jquery对象，只对第一个元素起作用。
+
+14、理解jquery插件的用处。
+网址：https://learn.jquery.com/plugins/basic-plugin-creation/
 
