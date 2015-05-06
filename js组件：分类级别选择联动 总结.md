@@ -36,6 +36,14 @@ alert( $( "body" ).data( "bar" ) ); // foobar
 
 11、$.fn.fun和$.的区别
 去掉fn是使方法全局化。
+$.fuctionname 是在jquery的命名空间下定义的方法，它和jquery的实用方法是一致的。都是全局函数。
+这样用的：
+（function($) {
+$.sum =function(array){
+};
+$.fn.sum=function(array){
+};
+}）（jquery）；
 
 12、id可以更快，但是在js中为了避免重用性，最好用class。
 
