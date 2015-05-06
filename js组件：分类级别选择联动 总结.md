@@ -43,4 +43,26 @@ alert( $( "body" ).data( "bar" ) ); // foobar
 
 14、理解jquery插件的用处。
 网址：https://learn.jquery.com/plugins/basic-plugin-creation/
+```js
+(function ( $ ) {
+ 
+    $.fn.greenify = function() {
+        this.css( "color", "green" );
+        return this;
+    };
+ 
+}( jQuery ));
+```
+会对所有元素起作用。因为css方法好像。。。不是jquery的。
+```js
+(function ( $ ) {
+ 
+    $.fn.greenify = function() {
+        this.attr( "color", "green" );
+        return this;
+    };
+ 
+}( jQuery ));
+```
+不会对所有元素起作用，只对第一个起作用。因为attr方法好像。。。是jquery的。
 
