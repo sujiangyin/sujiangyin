@@ -78,3 +78,9 @@ $.fn.sum=function(array){
 不会对所有元素起作用，只对第一个起作用。因为attr方法好像。。。是jquery的。
 
 15、方法里面的回调函数：当某个方法或者动作执行完毕之后再调用的函数。
+16、在两个类之间切换：
+$this.find('span.glyphicon').toggleClass('glyphicon-arrow-down').toggleClass('glyphicon-arrow-up');
+用html取代html：
+replaceWith();
+一个类从无到有，从有到无：
+toggleClass（）。
