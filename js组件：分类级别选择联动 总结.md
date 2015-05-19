@@ -15,6 +15,7 @@ console.log(count);
 3、data-*:
 查找属性元素、获取属性值、设置data属性值：
 var levelOneBlock=this.find('[data-level="1"]');
+var number=$(this).data().level;
 var number=$(this).data('level');
 $( "body" ).data( "bar", "foobar" );
 alert( $( "body" ).data( "bar" ) ); // foobar
