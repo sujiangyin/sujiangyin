@@ -6,7 +6,9 @@ Full width, single column
 No grid classes are necessary for full-width elements.
 ```
 ```js
+
 Each tier of classes scales up, meaning if you plan on setting the same widths for xs and sm, you only need to specify xs.
+
 .col-xs-12 .col-md-8
 .col-xs-6 .col-md-4
 移动设备和desktop，以上每行等价，如果你想要实现xs和md的宽度效果，只要设定xs的具体值就可以。
@@ -42,11 +44,27 @@ Each tier of classes scales up, meaning if you plan on setting the same widths f
 <div class="clearfix visible-sm visible-lg"></div>
 </div>
 </div>
+
+
+这种<div class="clearfix visible-sm visible-lg"></div>只是清除lg和sm的浮动，
+栅格是水平还是堆叠以没有被清除浮动的md为准。
 ```
 ```js
-栅格类适用于与屏幕宽度大于或等于分界点大小的设备 ， 并且针对小屏幕设备覆盖栅格类。 因此，在元素上应用任何 .col-md-* 栅格类适用于与屏幕宽度大于或等于分界点大小的设备 ， 并且针对小屏幕设备覆盖栅格类。 因此，在元素上应用任何 .col-lg-* 不存在， 也影响大屏幕设备。
+栅格类适用于与屏幕宽度大于或等于分界点大小的设备 ， 并且针对小屏幕设备覆盖栅格类。
 
-也就是如果写的是md，那么在小于这个分界点min-width就不会起作用，大于max-width也不会起作用。所以当小于这个屏幕宽度时会堆叠在一起，大于或者说在这个范围中才会水平排列。
+ 因此，在元素上应用任何 .col-md-* 栅格类适用于与屏幕宽度大于或等于分界点大小的设备 ， 并且针对小屏幕设备覆盖栅格类。
+
+ 因此，在元素上应用任何 .col-lg-* 不存在， 也影响大屏幕设备。
+
+也就是如果写的是md，那么在小于这个分界点min-width就不会起作用，
+大于max-width也不会起作用。
+
+所以当小于这个屏幕宽度时会堆叠在一起，大于或者说在这个范围中才会水平排列。
+
+但对于超小屏幕是水平排列的，它的宽度是自动的。
+
+```
+```js
 ```
 
 
