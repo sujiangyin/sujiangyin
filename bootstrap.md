@@ -7,7 +7,8 @@ No grid classes are necessary for full-width elements.
 ```
 ```js
 
-Each tier of classes scales up, meaning if you plan on setting the same widths for xs and sm, you only need to specify xs.
+Each tier of classes scales up, meaning if you plan on setting the same widths for xs and sm,
+you only need to specify xs.
 
 .col-xs-12 .col-md-8
 .col-xs-6 .col-md-4
@@ -46,7 +47,7 @@ Each tier of classes scales up, meaning if you plan on setting the same widths f
 </div>
 
 
-这种<div class="clearfix visible-sm visible-lg"></div>只是清除lg和sm的浮动，
+这种<div class="clearfix visible-sm visible-lg"></div>只是清除lg和sm的浮动，也就是在lg和sm屏幕这个元素是可见的，但在中等屏幕它是隐藏的。
 栅格是水平还是堆叠以没有被清除浮动的md为准。
 ```
 ```js
@@ -65,6 +66,12 @@ Each tier of classes scales up, meaning if you plan on setting the same widths f
 
 ```
 ```js
+col-md-offset-1 col-md-11之所以要一套使用是因为col-md-offset-1是通过对col-md-11加左边的margin。
+
+
+嵌套列
+
+为了使用内置的栅格系统将内容再次嵌套，可以通过添加一个新的 .row 元素和一系列 .col-sm-* 元素到已经存在的 .col-sm-* 元素内。被嵌套的行（row）所包含的列（column）的个数不能超过12（其实，没有要求你必须占满12列）
 ```
 
 
