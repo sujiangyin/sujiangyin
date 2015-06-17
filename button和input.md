@@ -124,3 +124,14 @@ Java代码
             <input type="button" value="input button"/>  
         </form>  
     </body>  
+
+```js
+两种input组件：button和submit的区别
+button默认是啥都不做的，必须要在button上写js才能触发各种动作。
+
+submit默认即使啥js都不写，也会提交form（准确的说是触发onsubmit事件）。当然你也可以在上面写js做点其他什么事儿。
+
+button上写入onclick事件，只能通过鼠标点击触发。要用键盘触发的话，需要再写个onkeypress事件。
+
+submit则除了鼠标之外，还可以通过键盘上的Enter触发。
+```
