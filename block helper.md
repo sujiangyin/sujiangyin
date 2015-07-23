@@ -68,3 +68,37 @@ Handlebars.registerHelper('with', function(context, options) {
 });
 ```
 参数被传递到helpers目的是被传递，然后跟随着option hash。
+
+
+简单的迭代：
+块helper的一个普遍的用例是使用他们来定义自定义的迭代器。事实上，所有的handlebars内置的helper都是被按照handlebars的规律来定义的。让我们看看内置的helper each是怎么工作的？
+```js
+<div class="entry">
+  <h1>{{title}}</h1>
+  {{#with story}}
+    <div class="intro">{{{intro}}}</div>
+    <div class="body">{{{body}}}</div>
+  {{/with}}
+</div>
+<div class="comments">
+  {{#each comments}}
+    <div class="comment">
+      <h2>{{subject}}</h2>
+      {{{body}}}
+    </div>
+  {{/each}}
+</div>
+```
+在这个例子里面，我们想要调用block通过each，为数组中的每个元素。
+```js
+Handlebars.registerHelper('each', function(context, options) {
+  var ret = "";
+
+  for(var i=0, j=context.length; i<j; i++) {
+    ret = ret + options.fn(context[i]);
+  }
+
+  return ret;
+});
+
+```
