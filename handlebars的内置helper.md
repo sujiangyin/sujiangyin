@@ -127,3 +127,44 @@ template({firstName: "Alan", lastName: "Johnson"});
   <p class="empty">No content</p>
 {{/with}}
 ```
+5、lookup块helper（顾名思义：查找）
+它允许使用handlebars变量解释动态字段，这对数组索引的值的解释是很有用的。(??????)
+```js
+{{#each bar}}
+  {{lookup ../foo @index}}
+{{/each}}
+```
+6、log块helper
+可以在执行模板时进行上下文状态的记录。
+```js
+{{log "Look at me!"}}
+```
+代表Handlebars.logger.log（被自定义的logging重写）。
+7、blockHelperMissing 块helper
+隐式调用当一个helper不能在环境的helpers hash里直接被解释。
+```js
+{{#foo}}{{/foo}}
+```
+将会在当前上下文调用这个helper和foo被解释的值,并且options.name域设置“foo”.
+这个可能被那些希望改变块的行为的用户重写。比如：
+```js
+Handlebars.registerHelper('blockHelperMissing', function(context, options) {
+  throw new Handlebars.Exception('Only if or each is allowed');
+});
+```
+可能被用来阻止 mustache-style块（对if和each块更青睐的块）的使用。
+8、helperMissing 块helper
+当一个潜在的helper在环境helper和当前上下文都找不到的·时候，内部helper就会被调用。在两者都运行的情况下，这个会在blockHelperMissing之前运行。
+```js
+{{foo}}
+{{foo bar}}
+{{#foo}}{{/foo}}
+```
+将会一个个调用这个helper，传递任何参数，这些参数已经被传递给别的同名helper。当使用knownHelpersOnly的时候这个helper将不会被调用。
+这可能会被应用重写。为了强迫领域的存在，下面可能要被使用：
+```js
+Handlebars.registerHelper('helperMissing', function(/* [args, ] options */) {
+  var options = arguments[arguments.length - 1];
+  throw new Handlebars.Exception('Unknown field: ' + options.name);
+});
+```
