@@ -153,6 +153,8 @@ Handlebars.registerHelper('blockHelperMissing', function(context, options) {
 });
 ```
 可能被用来阻止 mustache-style块（对if和each块更青睐的块）的使用。
+
+
 8、helperMissing 块helper
 当一个潜在的helper在环境helper和当前上下文都找不到的·时候，内部helper就会被调用。在两者都运行的情况下，这个会在blockHelperMissing之前运行。
 ```js
