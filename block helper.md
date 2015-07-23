@@ -40,4 +40,31 @@ Handlebars.registerHelper('bold', function(options) {
 ```
 
 with helper
-
+with helper演示怎么传递一个参数到你的helper。当一个helper被当成一个参数，它就被调用了，不管模版通过什么上下文。
+```js
+<div class="entry">
+  <h1>{{title}}</h1>
+  {{#with story}}
+    <div class="intro">{{{intro}}}</div>
+    <div class="body">{{{body}}}</div>
+  {{/with}}
+</div>
+```
+你可能发现一个helper像这种多么有用，如果你的json对象包含很深的嵌套性能，你想要去避免
+重复父亲的名字。上面的模版和json一起使用会很有用，就像：
+```js
+{
+  title: "First Post",
+  story: {
+    intro: "Before the jump",
+    body: "After the jump"
+  }
+}
+```
+使一个helper生效像这个使noop helper 生效。helper可以带参数，参数的评估就像直接放在{{}}这个里面的表达式一样。
+```js
+Handlebars.registerHelper('with', function(context, options) {
+  return options.fn(context);
+});
+```
+参数被传递到helpers目的是被传递，然后跟随着option hash。
