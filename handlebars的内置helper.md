@@ -85,3 +85,45 @@
 迭代的第一步和最后一步分别通过变量@first和@last来标注。当迭代一个对象，只有@first可以使用。
 
 嵌套each块可以允许迭代变量基于路径走过深度。可以允许父节点的index，比如{{@../index}}可以使用。
+
+4、with 块 helper
+正常来讲，handlebars的模版是依靠上下文通过编译方法来评估的。
+```js
+var source   = "<p>{{lastName}}, {{firstName}}</p>";
+var template = Handlebars.compile(source);
+template({firstName: "Alan", lastName: "Johnson"});
+```
+结果：
+```js
+<p>Johnson, Alan</p>
+```
+```js
+您可以使用内置的with模块来将上下文转换为模板的一部分。
+<div class="entry">
+  <h1>{{title}}</h1>
+
+  {{#with author}}
+  <h2>By {{firstName}} {{lastName}}</h2>
+  {{/with}}
+</div>
+配合这个上下文：
+{
+  title: "My first post!",
+  author: {
+    firstName: "Charles",
+    lastName: "Jolley"
+  }
+}
+结果：
+<div class="entry">
+  <h1>My first post!</h1>
+
+  <h2>By Charles Jolley</h2>
+</div>
+你还可以使用else部分来显示当通过的值为空：
+{{#with author}}
+  <p>{{name}}</p>
+{{else}}
+  <p class="empty">No content</p>
+{{/with}}
+```
