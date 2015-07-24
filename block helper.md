@@ -212,3 +212,71 @@ Handlebars.registerHelper('list', function(context, options) {
 });
 ```
 hash参数提供一个强大的方法来提供可选参数的数字到一个块helper，没有位置参数引起的复杂性。
+
+块helpers也可以注入私有变量到他们的孩子模块。这对添加额外的信息（没有在原始的上下文数据中）很有用
+比如，当迭代一个list列表时，你可能提供现有的索引作为私有变量。
+```js
+{{#list array}}
+  {{@index}}. {{title}}
+{{/list}}
+
+Handlebars.registerHelper('list', function(context, options) {
+  var out = "<ul>", data;
+
+  if (options.data) {
+    data = Handlebars.createFrame(options.data);
+  }
+
+  for (var i=0; i<context.length; i++) {
+    if (data) {
+      data.index = i;
+    }
+
+    out += "<li>" + options.fn(context[i], { data: data }) + "</li>";
+  }
+
+  out += "</ul>";
+  return out;
+});
+```
+私有变量通过data选项是可用的所有后裔的范围。
+私有变量在父亲范围中被定义，可能有权进入路径查询，为了进入父亲迭代器的index域，可以使用@../index
+。
+确保你创建一个新的数字框架在每个helper（这种helper管理自己的数据）。否则，下游变量可能出人意料的使得上游变量发生变化。
+
+也要确保data域值在尝试和已有的数据对象交互之前被定义。私有变量的行为是有条件地编译，而且一些模块可能不会创建这个域。
+块参数：
+在handlebars的3.0版本，可以接收来自支持的helper的命名参数。
+```js
+{{#each users as |user userId|}}
+  Id: {{userId}} Name: {{user.name}}
+{{/each}}
+```
+在这个例子中，user将会像当前上下文一样有相同的值，而且，userID将会有迭代器的索引值。
+这个允许嵌套的helper避免产生私有变量的命名冲突。
+```js
+{{#each users as |user userId|}}
+  {{#each user.book as |book bookId|}}
+    User Id: {{userId}} Book Id: {{bookId}}
+  {{/each}}
+{{/each}}
+```
+
+Raw块
+Raw块是可变的对于那些需要处理未经加工的大括号的块的模版来说。
+```js
+{{{{raw-helper}}}}
+  {{bar}}
+{{{{/raw-helper}}}}
+```
+将会执行raw-helper而没有中断内容。
+```js
+Handlebars.registerHelper('raw-helper', function(options) {
+  return options.fn();
+});
+
+```
+将会产生：
+```js
+{{bar}}
+```
