@@ -191,3 +191,24 @@ handlebars通过把他们作为options hash的属性栓住的方法为块helper�
 在随后的调用中使用同样名字的helper是不需要的，unless这个helper可能在和其他任何helper配用的else部分被使用。
 当helper的值不同，关闭大括号就会匹配开着的helper的名字。
 
+Hash 参数
+像普通的helpers一样，块helper可以接受一个可选择的hash作为它的最终参数。让我们回顾list helper，它可以让我们添加任意可选属性的数字到我们创建的ul元素里。
+```js
+{{#list nav id="nav-bar" class="top"}}
+  <a href="{{url}}">{{title}}</a>
+{{/list}}
+```
+handlebars 提供最终的hash作为options.hash。这让接受一个可变数量的参数，而且还可以接受option hash。
+如果模版没有提供hash参数，handlebars将会自动通过一个空的对象，所以你不需要核对hash参数的存在性。
+```js
+Handlebars.registerHelper('list', function(context, options) {
+  var attrs = Em.keys(options.hash).map(function(key) {
+    return key + '="' + options.hash[key] + '"';
+  }).join(" ");
+
+  return "<ul " + attrs + ">" + context.map(function(item) {
+    return "<li>" + options.fn(item) + "</li>";
+  }).join("\n") + "</ul>";
+});
+```
+hash参数提供一个强大的方法来提供可选参数的数字到一个块helper，没有位置参数引起的复杂性。
