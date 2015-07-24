@@ -178,3 +178,14 @@ Handlebars.registerHelper('if', function(conditional, options) {
 ```
 handlebars通过把他们作为options hash的属性栓住的方法为块helper提供额外的元数据。继续阅读看更多的例子。
 
+条件语句也可以被包括在随后的其他helper，它在else的区域里被调用
+```js
+{{#if isActive}}
+  <img src="star.gif" alt="Active">
+{{else if isInactive}}
+  <img src="cry.gif" alt="Inactive">
+{{/if}}
+```
+在随后的调用中使用同样名字的helper是不需要的，unless这个helper可能在和其他任何helper配用的else部分被使用。
+当helper的值不同，关闭大括号就会匹配开着的helper的名字。
+
