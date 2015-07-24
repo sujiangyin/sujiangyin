@@ -102,3 +102,79 @@ Handlebars.registerHelper('each', function(context, options) {
 });
 
 ```
+在这个例子里，我们在传递的参数里迭代items，对于每个items的项都调用这个块，
+当我们迭代的时候，我们建立了一个字符串结果然后返回它。
+这个模式可以被用来使得更多先进的迭代器生效。例如，让我们们创建一个迭代器，可以产生<ul>的封装，然后把每一个结果元素封装在<li>标签里面。
+```js
+{{#list nav}}
+  <a href="{{url}}">{{title}}</a>
+{{/list}}
+```
+你可以评估这个模块使用一些类似上下文的东西：
+```js
+{
+  nav: [
+    { url: "http://www.yehudakatz.com", title: "Katz Got Your Tongue" },
+    { url: "http://www.sproutcore.com/block", title: "SproutCore Blog" },
+  ]
+}
+
+````
+这个helper和原先的each helper很相似。
+```js
+Handlebars.registerHelper('list', function(context, options) {
+  var ret = "<ul>";
+
+  for(var i=0, j=context.length; i<j; i++) {
+    ret = ret + "<li>" + options.fn(context[i]) + "</li>";
+  }
+
+  return ret + "</ul>";
+});
+```
+使用一个库就像underscore.js或者SproutCore的运行时间库让这个变得更漂亮，例如，下面这个是当使用SproutCore的运行时间库时候的样子：
+```js
+Handlebars.registerHelper('list', function(context, options) {
+  return "<ul>" + context.map(function(item) {
+    return "<li>" + options.fn(item) + "</li>";
+  }).join("\n") + "</ul>";
+});
+```
+条件语句
+块helper的另外一个普遍用例就是评估条件的状态。与迭代器一样，handlebars的内置if和unless控制结构按照handlebarshelper的规律被生效。
+```js
+{{#if isActive}}
+  <img src="star.gif" alt="Active">
+{{/if}}
+```
+控制结构通常没有改变现有的上下文，取而代之，它们基于某些变量决定是否调用这个块。
+```js
+Handlebars.registerHelper('if', function(conditional, options) {
+  if(conditional) {
+    return options.fn(this);
+  }
+});
+```
+
+当写一个条件语句时，你就会经常想要模块提供一个html的块，那么你的helper 可以插入如果条件语句设置为false。
+handlebars处理这个问题通过提供else功能给块helpers。
+```js
+{{#if isActive}}
+  <img src="star.gif" alt="Active">
+{{else}}
+  <img src="cry.gif" alt="Inactive">
+{{/if}}
+```
+hanldebars为else片段提供块如option.inverse。你不需要核对else片段是否存在：handlebars会自动侦查它以及注册一个noop的功能。
+```js
+Handlebars.registerHelper('if', function(conditional, options) {
+  if(conditional) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+
+```
+handlebars通过把他们作为options hash的属性栓住的方法为块helper提供额外的元数据。继续阅读看更多的例子。
+
