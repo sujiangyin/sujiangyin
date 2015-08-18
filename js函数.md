@@ -1,32 +1,32 @@
-'''js
+```js
 text.replace(/\W+/g, " ").split(' ').indexOf(n)
 用空格取代非单词符号，按照空格分隔单词，找出字符串n的下标。
-'''
+```
 
-'''js
+```js
 单词和空格间的位置。
 //b
-'''
+```
 
-'''js
+```js
 !!text.match('\\b' + n + '\\b')
 把右边的值转为Boolean值。
-'''
+```
 
-'''js
+```js
 match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。
 该方法类似 indexOf() 和 lastIndexOf()，但是它返回指定的值，而不是字符串的位置。
 语法：
 stringObject.match(searchvalue)
 stringObject.match(regexp)
-'''
+```
 
-'''js
+```js
 search() 方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。
 返回字符串的起始位置。
-'''
+```
 
-'''js
+```js
 .apply的其他巧妙用法（一般在什么情况下可以使用apply）  
   
 我首先从网上查到关于apply和call的定义,然后用示例来解释这两个方法的意思和如何去用.  
@@ -67,8 +67,8 @@ this:在创建对象在这个时候代表的是student
 arguments:是一个数组,也就是[“qian”,”21”,”一年级”];  
   
 也就是通俗一点讲就是:用student去执行Person这个类里面的内容,在Person这个类里面存在this.name等之类的语句,这样就将属性创建到了student对象里面  
-'''
-'''js
+```
+```js
 保留（两）几位小数
 return String(Math.floor([n] * 100) / 100).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-'''
+```
