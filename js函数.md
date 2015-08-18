@@ -73,3 +73,13 @@ arguments:是一个数组,也就是[“qian”,”21”,”一年级”];
 保留（两）几位小数
 return String(Math.floor([n] * 100) / 100).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 ```
+```js
+join('')连接
+```
+
+```js
+var spied = spy(myFunction);
+把该函数定义一个新的函数名。
+```
+
+
