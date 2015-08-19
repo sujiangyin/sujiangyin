@@ -82,4 +82,42 @@ var spied = spy(myFunction);
 把该函数定义一个新的函数名。
 ```
 
+```js
+2) filter
 
+该filter()方法创建一个新的匹配过滤条件的数组。
+
+不用 filter() 时
+var arr = [
+  {"name":"apple", "count": 2},
+  {"name":"orange", "count": 5},
+  {"name":"pear", "count": 3},
+  {"name":"orange", "count": 16},
+];
+   
+var newArr = [];
+ 
+for(var i= 0, l = arr.length; i< l; i++){
+  if(arr[i].name === "orange" ){
+newArr.push(arr[i]);
+}
+}
+ 
+console.log("Filter results:",newArr);
+
+用了 filter():
+var arr = [
+  {"name":"apple", "count": 2},
+  {"name":"orange", "count": 5},
+  {"name":"pear", "count": 3},
+  {"name":"orange", "count": 16},
+];
+var newArr = arr.filter(function(item){
+  return item.name === "orange";
+});
+console.log("Filter results:",newArr);
+
+最近发现了jquery的.filter()方法，这真是一个很强大的方法，最强大之处在于，他可以接受一个函数作为参数，
+然后根据函数的返回值判断，如果返回值是true，这个元素将被保留，如果返回值是false，这个元素将被剔除。
+这就是jquery选择器的过滤器。 
+```
