@@ -230,3 +230,33 @@ var flattened = [[0, 1], [2, 3], [4, 5]].reduce(function(a, b) {
 });
 // flattened is [0, 1, 2, 3, 4, 5]
 ```
+```js
+今天看JS学习资料，看到一个toString()方法，在JS中，定义的所有对象都具有toString()方法。
+
+Number类型的toString()方法比较特殊，有默认模式和基模式两种。
+
+默认模式的例子：
+
+var num1 = 10;
+
+var num2 = 10.0;
+
+alert(num1.toString());//输出10
+
+alert(num2.toString());//输出10
+
+无论你用什么表示法声明数字，默认模式只是按十进制返回。
+
+基模式的例子：
+
+var num1 = 10;
+
+alert(num1.toString(2));//输出1010
+
+alert(num1.toString(8));//输出12
+
+alert(num1.toString(16));//输出A
+
+很明显，基模式就是把数值型转换成相应的进制。
+
+```
