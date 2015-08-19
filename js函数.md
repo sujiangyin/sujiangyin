@@ -121,3 +121,5 @@ console.log("Filter results:",newArr);
 然后根据函数的返回值判断，如果返回值是true，这个元素将被保留，如果返回值是false，这个元素将被剔除。
 这就是jquery选择器的过滤器。 
 ```
+
+
