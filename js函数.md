@@ -121,5 +121,24 @@ console.log("Filter results:",newArr);
 然后根据函数的返回值判断，如果返回值是true，这个元素将被保留，如果返回值是false，这个元素将被剔除。
 这就是jquery选择器的过滤器。 
 ```
+```js
+some方法
 
+array1.some(callbackfn[, thisArg])
+
+对数组array1中的每个元素调用回调函数callbackfn，当回调函数返回true或者遍历完所有数组后，some方法终止。可选参数thisArg可以替换回调函数中的this对象
+
+filter方法
+
+array1.filter(callbackfn[, thisArg])
+
+对数组array1中的每个元素调用回调函数callbackfn方法，该方法会返回一个在回调函数中返回true的元素的新的集合。可选参数thisArg可以替换回调函数中的this对象
+
+
+两者的区别
+
+some方法返回的是boolean值，可用于检察数组中是否有某对象
+
+filter方法返回的是一个新数组，可用于过滤数组中的对象
+```
 
