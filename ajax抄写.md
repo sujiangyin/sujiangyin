@@ -45,6 +45,33 @@ alert("done")
 
 
 
+post方法：
+ajax函数简写：
+```js
+$.ajax({
+  type: "POST",(post请求)
+  url: url,（请求的url地址）
+  data: data,(发送给服务器的数据)
+  success: success,（请求成功后执行的回调函数）
+  dataType: dataType（预期返回的数据类型）
+});
+```
+
+success回调函数在1.5的jq开始将指定一个成功的处理函数:
+```js
+   $post("test.html",function(data）｛
+       $('.result').html(data);
+｝)；
+```
+将请求的所有html代码插入到页面中。
+另外post方法请求得到的页面是不会缓存的。
+
+
+
+
+
+
+
 
 
 
