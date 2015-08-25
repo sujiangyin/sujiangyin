@@ -68,6 +68,67 @@ success回调函数在1.5的jq开始将指定一个成功的处理函数:
 
 
 
+w3cschool ajax
+实例解释：
+```js
+<html>
+<body>
+
+<div id="myDiv"><h3>Let AJAX change this text</h3></div>
+<button type="button" onclick="loadXMLDoc()">Change Content</button>
+
+</body>
+</html>
+```
+上面这个实例包括一个div和一个按钮，div用来显示来自服务器的信息。当按钮被点击时，它负责调用名为loadXMLdoc（）的函数：
+如下：
+```js
+<head>
+<script type="text/javascript">
+function loadXMLDoc()
+{
+.... AJAX script goes here ...
+}
+</script>
+</head>
+```
+向服务器发送请求
+如需将请求发送到服务器，我们使用xmlhttprequest对象的open（）和send（）方法：
+```js
+ xmlhttp.open("GET","test1.txt",true);
+ xmlhttp.send();
+```
+open方法:
+open(method,url,async)
+规定请求的类型、url以及是否异步处理请求。
+请求的类型get和post方法；url是文件在服务器上的位置；true为异步，false为同步。
+send(string)将请求发送到服务器。string仅用于post请求。
+
+与post相比，get更简单更快，在大部分情况下都能用。
+然而，在以下情况要使用post：
+1、无法使用缓存文件（更新服务器上的文件或数据库）
+2、向服务器上发送大量数据（post没有数据量限制）
+3、发送包含未知字符的用户输入时，post比get更稳定可靠。
+
+get请求，一个简单的get请求：
+```js
+xmlhttp.open("GET","demo_get.asp",true);
+xmlhttp.send();
+```
+上面的结果你可能得到的是缓存结果。为了避免这种情况，请向url添加一个唯一的id：
+```js
+xmlhttp.open("GET","demo_get.asp?t=" + Math.random(),true);
+xmlhttp.send();
+```
+如果你希望通过get方法发送信息，请向url添加信息：
+```js
+xmlhttp.open("GET","demo_get2.asp?fname=Bill&lname=Gates",true);
+xmlhttp.send();
+```
+
+
+
+
 
 
 
