@@ -172,6 +172,22 @@ xmlhttp.open("GET","test1.txt",true);
 xmlhttp.send();
 ```
 
+Async = false
+
+如需使用 async=false，请将 open() 方法中的第三个参数改为 false：
+
+xmlhttp.open("GET","test1.txt",false);
+
+我们不推荐使用 async=false，但是对于一些小型的请求，也是可以的。
+
+请记住，JavaScript 会等到服务器响应就绪才继续执行。如果服务器繁忙或缓慢，应用程序会挂起或停止。
+
+注释：当您使用 async=false 时，请不要编写 onreadystatechange 函数 - 把代码放到 send() 语句后面即可：
+```js
+xmlhttp.open("GET","test1.txt",false);
+xmlhttp.send();
+document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+```
 
 
 
