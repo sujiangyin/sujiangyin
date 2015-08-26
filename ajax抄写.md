@@ -125,10 +125,52 @@ xmlhttp.send();
 xmlhttp.open("GET","demo_get2.asp?fname=Bill&lname=Gates",true);
 xmlhttp.send();
 ```
+一个简单post请求：
+```js
+xmlhttp.open("POST","demo_post.asp",true);
+xmlhttp.send();
+```
 
+如果需要像html表单那样post数据，请使用setRequestHeader（）来添加http头。然后在send（）方法中规定您希望发送的数据：
+```js
+xmlhttp.open("post","ajax_test.asp",true);
+xmlhttp.setRequestHeader("content-type","application/x-www-form-urlencoded");
+xmlhttp.send("fname=Bill&lnmae=Gates");
 
+setRequestHeader(header,value)
+header规定头的名称，value规定头的值。
+```
 
+url-服务器上的文件
 
+open（）方法的url参数是服务器上文件的地址：
+xmlhttp.open("GET",ajax_test.asp",true);
+该文件可以是任何类型的文件。
+
+异步-True或false;
+ajax指的是异步javascript和xml。
+XMLHttpRequest对象如果要用于ajax的话，其open（）方法的asnc参数必须设置为true：
+```js
+xmlhttp.open("GET","ajax_test.asp",true);
+```
+对于web开发人员来说，发送异步请求是一个巨大的进步。很多在服务器执行的任务都相当的费时。ajax出现之前，这可能会引起应用程序挂起或停止。
+通过ajax，javascript无需等待服务器的响应，而是：
+在等待服务器响应时执行其他脚本
+在响应就绪后对响应进行处理
+
+async=true
+当使用async=true时，请规定在响应处于onreadystatechange事件中的就绪状态时执行的函数：
+```js
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","test1.txt",true);
+xmlhttp.send();
+```
 
 
 
