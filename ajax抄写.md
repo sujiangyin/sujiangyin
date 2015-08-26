@@ -188,9 +188,19 @@ xmlhttp.open("GET","test1.txt",false);
 xmlhttp.send();
 document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
 ```
+服务器响应
+如需获得来自服务器的响应，请使用xmlhttprequest对象的responsetext或reponsexml属性。
+```js
+reponsetext 获得字符串形式的响应数据。
+reponsexml获得xml形式的响应数据。
+```
 
-
-
+responseText 属性
+如果来自服务器的响应并非xml，请使用responsetext属性。
+responsetext属性返回字符串形式的响应，因此您可以这样使用：
+```js
+document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+```
 
 
 
