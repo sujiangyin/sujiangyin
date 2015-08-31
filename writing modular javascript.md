@@ -42,3 +42,89 @@ a way to filter products
 每个这些片段都很清楚的被分离在页面中，但他们都需要和其他的模块交互——不是一个初始者就是一个接受者。我们将会看到这是怎
 么工作的！
 好的，理论足够，我们开始代码吧。
+
+
+建modele块：
+当我开始这个工程时，我没有一个core或者sandbox来支持。所以我决定从编写module开始，因为这个会给我一个idea关于modeles需要什么来进入sandbox。
+
+
+当创建一个module，我使用一个这样方案，和zakas的例子的代码很相似：
+```js
+CORE.create_module("search-box", function (sb) { 
+    return { 
+        init : function () {}, 
+        destroy : function () {} 
+    }; 
+});
+```
+正如你所看到的，我们在core上使用一个方法create_module来注册这个module。（当然，我还没有创建这个core。但我们会走到那一步的。）这个方法将会有两参数：module的名字（在这个例子中是“search-box”），还有一个是方法，这个方法返回一个module对象。我在这里show出来的可能是最基础的module模型。注意，创造方法的几点：第一、有个单一的参数，它将是我们的sandbox的一个实例（当我们看到sandbox，我们会看到为什么实例会比有所有的module权限进入同样的sandbox对象更加好）.这个sandbox对象仅仅是一个module对外的一个连接（当然，正如zakas说的，没有技术上的限制阻止你直接从模块内进入base或core但你不应该这么做。）如你所见，这个方法返回一个对象，就是我们的module对象。至少，module仅仅有一个init方法（当我们启用module时被使用），还有一个destroy方法（当我们关闭这个module时被使用）。
+
+所以，让我们来真正的创建一个module。
+
+The Search Box Module
+```js
+  var input, button, reset; 
+ 
+    return { 
+        init : function () {}, 
+        destroy : function () {}, 
+        handleSearch : function () {}, 
+        quitSearch : function () {} 
+    }; 
+});
+```
+你应该理解这里发生了什么：我们的module将会使用三个变量：input，
+button和reset。除此之外，还有两个必须的module方法在return对象里，我们正创建两个和search相关的方法。我想没有什么理由它们必须在return模块的对象里；它们可以在return的声明上面被声明，然后1通过调用来使用。让我们进入它的每一个方法：
+
+```js
+init : function () { 
+    input = sb.find('#search_input')[0]; 
+    button = sb.find('#search_button')[0]; 
+    reset  = sb.find("#quit_search")[0]; 
+ 
+    sb.addEvent(button, 'click', this.handleSearch); 
+    sb.addEvent(reset, 'click', this.quitSearch); 
+}
+```
+首先，我们分配需要的三个变量。由于我们需要来自module的dom元素，我们需要一个find方法在我们sandbox里面。最好【0】所得到的是什么？sb.find方法返回一些相似的jquery对象：匹配选择器的元素会被赋予一个数字键key，他们是一些方法或属性。然而，我们只打算要一个原dom元素，我们是在抢占（由于只有一个元素会有那个id，我们就可以确保只返回一个元素。）
+
+
+这些元素的两个是botton（button和reset），因此我们需要hook up一些事件处理。必须也要把它们添加到我们sandbox！正如你看到的，增加事件的方法是你的标准：它需要元素，时间和方法。
+
+摧毁一个module又是怎样的呢：
+
+```js
+destroy : function () { 
+    sb.removeEvent(button, 'click', this.handleSearch); 
+    sb.removeEvent(reset, 'click', this.quitSearch); 
+    input = null; 
+    button = null; 
+    reset = null; 
+},
+```
+
+这个非常简单：一个和addEvent方法相反作用的removeEvent。然后，设置三个变量为空。
+
+这两个事件的监听参考search方法，让我们先看第一个：
+```js
+handleSearch : function () { 
+    var query = input.value; 
+    if (query) { 
+        sb.notify({ 
+            type : 'perform-search', 
+            data : query 
+        }); 
+    } 
+},
+```
+首先，获得search的input值。如果有东西，就继续前进。但我们该做什么？
+正常来说，当正在做一个动态的search（那不需要一个页面ajax更新），我们将有权进入产品面板和恰当的过滤它们。但我们的module要存在不管有还是没有产品面板；并且，它只通过sandbox和外界联系。所有这就是zakas建议的：我们仅仅告诉sandbox（它会轮着告诉core）用户已经执行了搜索操作。那么core就会给其他module提供信息。如果有i个回应，它就会拿着数据运行它。我们通过sb.notify方法做这件事；它带着一个有两个属性的对象：我们要执行的事件的类型和与事件相关的数据。在这个例子中，我们在做一个‘perform-search’的事件，相关的数据是query。这是search box所要做的；如果还有另外一个module暴露可以被搜素的能力，core就会把数据给它。
+
+
+
+
+
+
+
+
+
