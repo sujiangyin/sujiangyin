@@ -632,10 +632,150 @@ unbind : function (element, evt, fn) {
 相不相信都好，这就是整个core的内容；我们的base是jquery，我们已经准备好安装它。
 
 
+Puttting it All Together
+现在我们准备建一些html代码来看javascript的行为。我不会那么详细地带着你走，因为这不是教程的重点。
+```js
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Online Store</title> 
+    <link rel="stylesheet" href="default.css" /> 
+</head> 
+<body> 
+    <div id="main"> 
+        <div id="search-box"> 
+            <input id="search_input" type="text" name='q' /> 
+            <button id="search_button">Search</button> 
+            <button id="quit_search">Reset</button> 
+        </div> 
+  
+        <div id="filters-bar"> 
+            <ul> 
+                <li><a href="#red">Red</a></li> 
+                <li><a href="#blue">Blue</a></li> 
+                <li><a href="#mobile">Mobile</a></li> 
+                <li><a href="#accessory">Accessory</a></li> 
+            </ul> 
+        </div> 
+  
+       <div id="product-panel"> 
+            <ul> 
+                <li id="1" data-8088-keyword="red"><img src="img/1.jpg"><p>First Item</p></li> 
+                <li id="2" data-8088-keyword="blue"><img src="img/2.jpg"><p>Second Item</p></li> 
+                <li id="3" data-8088-keyword="mobile"><img src="img/3.jpg"><p>Third Item</p></li> 
+                <li id="4" data-8088-keyword="accessory"><img src="img/4.jpg"><p>Fourth Item</p></li> 
+                <li id="5" data-8088-keyword="red mobile"><img src="img/5.jpg"><p>Fifth Item</p></li> 
+                <li id="6" data-8088-keyword="blue mobile"><img src="img/6.jpg"><p>Sixth Item</p></li> 
+                <li id="7" data-8088-keyword="red accessory"><img src="img/7.jpg"><p>Seventh Item </p></li> 
+                <li id="8" data-8088-keyword="blue accessory"><img src="img/8.jpg"><p>Eighth Item</p></li> 
+                <li id="9" data-8088-keyword="red blue"><img src="img/9.jpg"><p>Ninth Item</p></li> 
+                <li id="10" data-8088-keyword="mobile accessory"><img src="img/10.jpg"><p>Tenth Item</p></li> 
+            </ul> 
+  
+        </div> 
+          
+        <div id="shopping-cart"> 
+            <ul> 
+            </ul>  
+        </div>  
+    </div> 
+    <script src="js/jquery.js"></script> 
+    <script src="js/core-jquery.js"></script> 
+    <script src="js/sandbox.js"></script> 
+    <script src="js/modules.js"></script> 
+</body> 
+</html>
+```
 
+这没什么特殊的；最重要的事情就是要注意每个主要的div都要id跟javasript module一致。不要忘记html5的data-*属性给我们的分类帅选。
 
+当然了要给它样式：
+```js
+body { 
+    background:#ececec; 
+    font:13px/1.5 helvetica, arial, san-serif; 
+} 
+#main {  
+    width:950px; 
+    margin:auto;  
+    overflow:hidden;  
+} 
+#search-box, #filters-bar {  
+    margin-left:10px;  
+} 
+#filters-bar ul {  
+    list-style-type:none;  
+    margin:10px 0;  
+    padding:0;  
+    border-top:2px solid #474747;  
+    border-bottom:2px solid #474747;  
+    } 
+#filters-bar li {  
+    display:inline-block;  
+    padding:5px 10px 5px 0; 
+} 
+#filters-bar li a { 
+    text-decoration:none; 
+    font-weight:bold; 
+    color:#474747; 
+} 
+#product-panel { 
+    float:left; 
+    width: 588px; 
+} 
+#product-panel ul { 
+    margin:0; 
+    padding:0; 
+} 
+#product-panel li { 
+    list-style-type:none; 
+    display:inline-block; 
+    text-align:center; 
+    background:#474747; 
+    border:1px solid #eee; 
+    padding:15px; 
+    margin:10px; 
+} 
+#product-panel li p { 
+    margin:10px 0 0 0; 
+} 
+  
+#shopping-cart { 
+    float:left; 
+    background:#ccc; 
+    height:300px; 
+    width:300px; 
+    padding:30px; 
+    border:1px solid #474747; 
+} 
+  
+#shopping-cart ul { 
+    list-style-type:none; 
+    padding:0; 
+} 
+  
+#shopping-cart li { 
+    padding:3px; 
+    margin:2px 0; 
+    background:#ececec; 
+    border: 1px solid #333; 
+} 
+  
+#shopping-cart .product_name { 
+    display:inline-block; 
+    width:230px; 
+} 
+  
+#shopping-cart .price { 
+    display: inline-block; 
+    float:right; 
+}
 
+```
 
+效果不显示啦！！！！！
+well，这就是全部啦，但是再让我们做一件事：让我们做一件事在dojo上，来展示怎么去使用core更简单地转换base。。。噢啦
 
 
 
