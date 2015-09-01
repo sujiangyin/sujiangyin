@@ -339,7 +339,304 @@ addItem : function (product) {
     } 
 }
 ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+这个方法把我们刚才在产品面板的module看到的产品对象为参数。然后，我们通过选择器‘#cart-’+product.id+'.quntity'获得某个元素。这个方法通过在一个有id：cart-id_number内加一个类quantity’ 来查找元素。如果在之前已经被添加到购物车，这就会被找到。如果找到了，我们就增加这个元素的内部html（用户已经添加到购物车的产品的数量）然后更新cartItems对象的入口，它保持跟踪购物流程。
+
+如果没有找到这个元素，就是用户第一次添加这个产品到购物车。在这种情况下，我们会使用sandbox的create_element方法；如你所见，它会带着一个类似jquery的属性对象。这里有个特殊的例子就是孩子属性，它是一个元素的数组用来插入到我们创建的元素当中。如你所见，我们用三个span标签创建一个列表item：产品名字，数量，和价格。然后，我们追加这个列表到购物车和添加这个产品到cartItem对象。
+
+那就是我们的module的所有代码；我应该解释我已经把这些放在一个文件叫做module.js。现在我们知道我们的module将需要什么接口来工作，我们已经准备好去建立sandbox啦。
+
+
+The support:sandbox
+我知道我已经在之前提及过这个，但是sandbox的外部接口不发生改变真的很重要。这是因为所有的sandbox都依赖它。当然，你可以在方法里添加方法或改变代码，只要你没有改变这个方法和函数的返回。
+
+
+如果我们提取module.js文件，我们将会看到有以下这些方法是sandbox需要提供给这个module的：
+```js
+find
+addEvent
+removeEvent
+notify
+listen
+ignore
+create_element
+```
+所以让我们开始工作。因为我要使用sandbox.create的代码来创造一个sandbox的实例，我们需要创造一个只有一个方法的对象：
+
+```js
+var Sandbox = { 
+    create : function (core, module_selector) { 
+            var CONTAINER = core.dom.query('#' + module_selector); 
+            return { 
+                 
+            }; 
+        }     
+};
+```
+这里，我们开始。如你所见，create的方法会得到两个参数：一个指向core还有一个是module的名字。那么我们创造一个变量CONTAINER，它指向和module代码一致的dom元素。现在，我们开始写我们列出来的方法的代码。
+
+```js
+find : function (selector) { 
+    return CONTAINER.query(selector); 
+},
+```
+这个相当简单。事实上，大部分sandbox的方法都相当简单，因为它应该要有很简单的外包来给module提供适量的权限进入core。当我们调用的core.dom.query方法返回一个容器，它就会给容器一个方法通过选择器来让它找到孩子元素，我们正在使用这个来限制一个module的能力去影响到dom，因此把它保持得想javascript一样在html中。
+
+```js
+addEvent : function (element, evt, fn) { 
+    core.dom.bind(element, evt, fn); 
+}, 
+removeEvent : function (element, evt, fn) { 
+    core.dom.unbind(element, evt, fn); 
+},
+```
+
+像我说的那样，大部分这些sandbox都相当小；我们只会将事件数据用数据连接到钩子上。
+
+```js
+notify : function (evt) { 
+    if(core.is_obj(evt) && evt.type) { 
+        core.triggerEvent(evt); 
+    } 
+}, 
+listen : function (evts) { 
+    if (core.is_obj(evts)) { 
+        core.registerEvents(evts, module_selector); 
+    }             
+},  
+ignore : function (evts) { 
+    if (core.is_arr(evts)) { 
+        core.removeEvents(evts, module_selector); 
+    }          
+},
+```
+这三个方法，如你所见，是modules用来通知其他modules它的行为的工具。我已经添加了一些错误核对的东西来确保在我们发送数据到core上之前所有东西都okay。注意，当我们需要告诉core我们要监听什么或忽视什么时，要传递modules的名字。
+
+```js
+create_element : function (el, config) { 
+    var i, text; 
+    el = core.dom.create(el); 
+    if (config) { 
+        if (config.children && core.is_arr(config.children)) { 
+            i = 0; 
+            while (config.children[i]) { 
+                el.appendChild(config.children[i])); 
+                i++; 
+            } 
+            delete config.children; 
+        } else if (config.text) { 
+           text = document.createTextNode(config.text); 
+           delete config.text; 
+           el.appendChild(text); 
+        } 
+        core.dom.apply_attrs(el, config); 
+    } 
+    return el; 
+}
+```
+这个很明显是sandbox的最长的方法（诚实地说，我想得越多，我就认为它更应该放在core里面，但anyway~~~）。像我们所知道的，它携带元素的名字和对象的配置，我们从创造dom元素开始（使用一个core方法）。然后，如果有配置对象，而且它有一个数组叫做children，我们在每个孩子上面去循环然后追加到元素上。不然我们就删除孩子属性，如果我们有一个文本属性，我们会设置j一个元素的文本到它上面然后删除文本属性（在这个例子中我们有孩子和文本）。最后，我们会使用另外一个core方法应用剩下的属性还有返回元素。
+
+
+好啦，sandbox结束了。我知道这个很简单，但是只是给你一个印象怎么去创造sandbox，你还是可以创建其他的方法的根据你自己的需要。
+
+
+
+The Fundation: Base and core
+我们的下一步是core,以下面的代码为开始：
+```js
+var CORE = (function () { 
+    var moduleData = {}, debug = true; 
+ 
+    return { 
+        debug : function (on) { 
+            debug = on ? true : false; 
+        }, 
+ 
+    }; 
+ 
+}());
+```
+我们将要使用module数据模型来存储针对这个module所知道的全部东西；debug变量是否出错显示在控制台。我们用debug方法来开启或关闭错误。
+
+让我们以用来注册module的方法create_module为开始：
+```js
+create_module : function (moduleID, creator) { 
+    var temp; 
+    if (typeof moduleID === 'string' && typeof creator === 'function') { 
+        temp = creator(Sandbox.create(this, moduleID)); 
+        if (temp.init && temp.destroy && typeof temp.init === 'function' && typeof temp.destroy === 'function') { 
+            moduleData[moduleID] = { 
+                create : creator, 
+                instance : null 
+            }; 
+            temp = null; 
+        } else { 
+            this.log(1, "Module \"" + moduleId + "\" Registration: FAILED: instance has no init or destroy functions"); 
+        } 
+    } else { 
+        this.log(1, "Module \"" + moduleId +  "\" Registration: FAILED: one or more arguments are of incorrect type" ); 
+ 
+    } 
+},
+```
+我们要做的第一件事就是确保参数传递到方法的类型是正确的；如果不正确，我们就调用一个log方法，它携带一个安全号码和信息。
+
+接下来，我们创建一个module的副本仅仅是为了确保它有个init和destory的方法；如果没有，我们再log一个错误。如都通过了，我们就增加一个对象到moduleData；当我们启动模块时，我们将为实例存储creator的方法和一个空点。然后我们就删除module的复制模块。
+
+```js
+start : function (moduleID) { 
+    var mod = moduleData[moduleID]; 
+    if (mod) { 
+        mod.instance = mod.create(Sandbox.create(this, moduleID)); 
+        mod.instance.init(); 
+    } 
+}, 
+start_all : function () { 
+    var moduleID; 
+    for (moduleID in moduleData) { 
+        if (moduleData.hasOwnProperty(moduleID)) { 
+            this.start(moduleID); 
+        } 
+    } 
+},
+```
+接下来，我们添加一个方法来启动module；你可能会期望，它接收一个module的名字作为一个简单的参数。如果有在moduleData里面有一致的模块，我们就运行他的方法，传递给它一个新的sandbox实例。然后，我们会启用它通过它的init方法。
+
+我们可以创造一个方法使得很容易就启用所有的modules，因为这是我们将想要的。我仅仅需要在moduleData上循环然后把每个module的id传递到每个start方法里面。不要忘记使用hasOwnProperty部分，我知道它很没必要又很丑陋（至少对于我来说），但是有一种情况：某人想要添加item到对象的原型对象。
+
+```js
+stop : function (moduleID) { 
+	var data; 
+	if (data = moduleData[moduleId] && data.instance) { 
+		data.instance.destroy(); 
+		data.instance = null; 
+	} else { 
+		this.log(1, "Stop Module '" + moduleID + "': FAILED : module does not exist or has not been started"); 
+	} 
+}, 
+stop_all : function () { 
+	var moduleID; 
+	for (moduleID in moduleData) { 
+		if (moduleData.hasOwnProperty(moduleID)) { 
+			this.stop(moduleID); 
+		} 
+	} 
+},
+```
+接下来的两个方法应该很明显：stop和stop_all。stop方法携带一个module的名字；如果系统知道module的名字还有module正在运行，我们就可以调用module的destory方法，然后设置实例为空。如果module不存在或不在运行，就报告错误。
+
+stop_all的方法和start_all的方法类似，就是在每个module上调用stop函数。
+
+下一步：处理事件
+
+```js
+registerEvents : function (evts, mod) { 
+	if (this.is_obj(evts) && mod) { 
+		if (moduleData[mod]) { 
+			moduleData[mod].events = evts; 
+		} else { 
+			this.log(1, ""); 
+		} 
+	} else { 
+		this.log(1, ""); 
+	} 
+}, 
+triggerEvent : function (evt) { 
+	var mod; 
+	for (mod in moduleData) { 
+		if (moduleData.hasOwnProperty(mod)){ 
+			mod = moduleData[mod]; 
+			if (mod.events && mod.events[evt.type]) { 
+				mod.events[evt.type](evt.data); 
+			} 
+		} 
+	} 
+}, 
+removeEvents : function (evts, mod) { 
+	var i = 0, evt; 
+	if (this.is_arr(evts) && mod && (mod = moduleData[mod]) && mod.events) { 
+		for ( ; evt = evts[i++] ; ) { 
+				delete mod.events[evt]; 
+			} 
+	} 
+},
+```
+就如我们所知道的，registerEvent 携带事件的一个对象和注册它们的module。再来，我们做一些错误checking（我已经留了错误空白在这个例子里，以简化代码）。如果evts是一个对象，我们也知道我们正在讨论讨论哪个module，我们只是把对象放进module的橱柜moduleData。
+
+当要触发事件，我们就被给予一个有类型和数据的对象。我们会再次循环moduleData 的每个module：如果module有一个事件属性而且事件对象有一个key跟我们执行的事件一致，我们就会调用存储在事件的方法然后把事件的数据传递给它。
+
+移除事件很简单，我们会得到事件的对象（然后在正常的错误审核之后）我们会在它上面循环然后移除在来自module的事件对象的数组上的事件（注意：我想我有一点混淆的截屏，但这是正确的版本。）
+
+```js
+log : function (severity, message) { 
+	if (debug) { 
+		console[ (severity === 1) ? 'log' : (severity === 2) ? 'warn' : 'error'](message); 
+	} else { 
+		// send to the server 
+	}      
+},
+``` 
+这个方法萦绕我们很久了；基本上，如果我们在debug的代码里面，我们就报告错误到控制台；否则我们就传递到服务器。oh，那三元的东西？那只是利用程度的参数来决定用哪个firebug的方法来报告错误：1===console.log，2===console.warn,>2===console.error。
+
+现在我们已经准备好看core的部分，它给sandbox基础的方法；对于这个大多数，分在了一个dom对象，因为我有强迫症。
+
+```js
+dom : { 
+	query : function (selector, context) { 
+		var ret = {}, that = this, jqEls, i = 0; 
+ 
+		if (context && context.find) { 
+			jqEls = context.find(selector); 
+		} else { 
+			jqEls = jQuery(selector); 
+		} 
+		 
+		ret = jqEls.get(); 
+		ret.length = jqEls.length; 
+		ret.query = function (sel) { 
+			return that.query(sel, jqEls); 
+		} 
+		return ret; 
+	},
+```
+这是我们的第一个方法，query。它携带一个选择器和一个上下文。现在记住，这是个core，我们可以直接指向基础层jquery。在这个情况下，上下文应该是一个jquery对象。如果上下文有一个find方法，我们就可以设置jqEls 为context.find(selector)的结果；如果你很熟悉jquery，你就会发现这个可以得到上下文的子元素；这就是我们是如何得到sandbox.query的方法的！然后我们可以设置调用get方法之后的返回对象；这个返回一个原dom元素的对象。然后，我们给ret长度属性，所有可以循环很容易。最后，我们给它一个jquery的方法：这个方法只能有一个参数，一个选择器，它调用core.dom.query，传递选择器和jqEls作为参数。
+
+
+```js
+bind : function (element, evt, fn) { 
+	if (element && evt) { 
+		if (typeof evt === 'function') { 
+			fn = evt; 
+			evt = 'click'; 
+		} 
+		jQuery(element).bind(evt, fn); 
+	} else { 
+		// log wrong arguments 
+	} 
+}, 
+unbind : function (element, evt, fn) { 
+	if (element && evt) { 
+		if (typeof evt === 'function') { 
+			fn = evt; 
+			evt = 'click'; 
+		} 
+		jQuery(element).unbind(evt, fn); 
+	} else { 
+		// log wrong arguments 
+	} 
+},
+```
+在这个dom事件有bind和unbind两个方法，我决定提供一个津贴给用户。用户必须传递两个方法，但如果evt参数是一个方法，我们就假设用户给我们留下了一个他想要处理的事件类型。在这种情况下，我们假设一个点击事件，由于它的普遍性。然后，我们使用jquery的bind方法把它绑起来。我需要注明的是因为我们的query方法返回的是dom集合，跟jquery很相似。这个方法可以通过给我们设置成jquery对象，没有任何问题。
+
+我们已经把最后四个方法分组因为它们都非常简单；dom.create简单地返回一个新的dom元素；dom.apply_attrs 使用jquery的attr方法来给元素提供属性。最后，我们已经得到两个helper方法，我们可以使用它来验证我们的参数。
+
+相不相信都好，这就是整个core的内容；我们的base是jquery，我们已经准备好安装它。
+
+
+
+
+
+
+
 
 
 
