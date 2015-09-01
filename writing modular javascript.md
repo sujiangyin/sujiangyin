@@ -289,6 +289,60 @@ changeFilters的方法和search方法非常相似；这次，取代搜索产品�
 
 
 
+The Shopping Cart Module
+我们来看再一个模块。就是“shopping cart” module：
+
+```js
+CORE.create_module(“shopping-cart”, function (sb) {  
+    var cart, cartItems; 
+ 
+    return { 
+        init : function () { 
+            cart = sb.find('ul')[0];  
+            cartItems = {}; 
+ 
+            sb.listen({ 
+                'add-item' : this.addItem 
+            }); 
+        }, 
+        destroy : function () { 
+            cart = null; 
+            cartItems = null; 
+            sb.ignore(['add-item']); 
+        }, 
+        addItem : function (product) { 
+        } 
+    }; 
+});
+```
+我认为你正在慢慢掌握它了；我们使用了两个变量：cart里面的the cart和 the item。在module的初始化阶段，我们会设置这些到购物车的ul还有一个空的对象。然后，我们会让sandbox知道我们想要响应一个事件。在摧毁事件上我们都不做这些。
+
+
+下面是当一个item被添加到购物车时会发生的事。
+
+```js
+addItem : function (product) { 
+    var entry = sb.find('#cart-' + product.id + ' .quantity')[0]; 
+    if (entry) { 
+        entry.innerHTML =  (parseInt(entry.innerHTML, 10) + 1); 
+        cartItems[product.id]++; 
+    } else { 
+        entry = sb.create_element('li', { id : "cart-" + product.id, children : [ 
+                sb.create_element('span', { 'class' : 'product_name', text : product.name }), 
+                sb.create_element('span', { 'class' : 'quantity', text : '1'}), 
+                sb.create_element('span', { 'class' : 'price', text : '$' + product.price.toFixed(2) }) 
+                ], 
+                'class' : 'cart_entry' }); 
+ 
+        cart.appendChild(entry); 
+        cartItems[product.id] = 1; 
+    } 
+}
+```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+
+
 
 
 
