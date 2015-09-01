@@ -465,17 +465,20 @@ create_module : function (moduleID, creator) {
     var temp; 
     if (typeof moduleID === 'string' && typeof creator === 'function') { 
         temp = creator(Sandbox.create(this, moduleID)); 
-if (temp.init && temp.destroy && typeof temp.init === 'function' && typeof temp.destroy === 'function') { 
+if (temp.init && temp.destroy && typeof temp.init === 'function' && typeof temp.destroy === 
+'function') { 
     moduleData[moduleID] = { 
         create : creator, 
         instance : null 
     }; 
     temp = null; 
 } else { 
-this.log(1, "Module \"" + moduleId + "\" Registration: FAILED: instance has no init or destroy functions"); 
+this.log(1, "Module \"" + moduleId + "\" Registration: 
+FAILED: instance has no init or destroy functions"); 
 } 
 } else { 
-this.log(1, "Module \"" + moduleId +  "\" Registration: FAILED: one or more arguments are of incorrect type" ); 
+this.log(1, "Module \"" + moduleId +  "\" Registration: FAILED: 
+one or more arguments are of incorrect type" ); 
  
     } 
 },
