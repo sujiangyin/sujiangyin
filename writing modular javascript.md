@@ -327,10 +327,11 @@ addItem : function (product) {
         entry.innerHTML =  (parseInt(entry.innerHTML, 10) + 1); 
         cartItems[product.id]++; 
     } else { 
-        entry = sb.create_element('li', { id : "cart-" + product.id, children : [ 
-                sb.create_element('span', { 'class' : 'product_name', text : product.name }), 
-                sb.create_element('span', { 'class' : 'quantity', text : '1'}), 
-                sb.create_element('span', { 'class' : 'price', text : '$' + product.price.toFixed(2) }) 
+        entry =
+        sb.create_element('li', { id : "cart-" + product.id, children : [ 
+        sb.create_element('span', { 'class' : 'product_name', text : product.name }), 
+        sb.create_element('span', { 'class' : 'quantity', text : '1'}), 
+        sb.create_element('span', { 'class' : 'price', text : '$' + product.price.toFixed(2) }) 
                 ], 
                 'class' : 'cart_entry' }); 
  
@@ -372,7 +373,8 @@ var Sandbox = {
         }     
 };
 ```
-这里，我们开始。如你所见，create的方法会得到两个参数：一个指向core还有一个是module的名字。那么我们创造一个变量CONTAINER，它指向和module代码一致的dom元素。现在，我们开始写我们列出来的方法的代码。
+这里，我们开始。如你所见，create的方法会得到两个参数：一个指向core还有一个是module的名字。
+那么我们创造一个变量CONTAINER，它指向和module代码一致的dom元素。现在，我们开始写我们列出来的方法的代码。
 
 ```js
 find : function (selector) { 
@@ -470,10 +472,10 @@ create_module : function (moduleID, creator) {
             }; 
             temp = null; 
         } else { 
-            this.log(1, "Module \"" + moduleId + "\" Registration: FAILED: instance has no init or destroy functions"); 
+    this.log(1, "Module \"" + moduleId + "\" Registration: FAILED: instance has no init or destroy functions"); 
         } 
     } else { 
-        this.log(1, "Module \"" + moduleId +  "\" Registration: FAILED: one or more arguments are of incorrect type" ); 
+this.log(1, "Module \"" + moduleId +  "\" Registration: FAILED: one or more arguments are of incorrect type" ); 
  
     } 
 },
@@ -510,7 +512,7 @@ stop : function (moduleID) {
 		data.instance.destroy(); 
 		data.instance = null; 
 	} else { 
-		this.log(1, "Stop Module '" + moduleID + "': FAILED : module does not exist or has not been started"); 
+this.log(1, "Stop Module '" + moduleID + "': FAILED : module does not exist or has not been started"); 
 	} 
 }, 
 stop_all : function () { 
