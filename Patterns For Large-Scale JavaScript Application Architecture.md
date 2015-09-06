@@ -147,3 +147,48 @@ myModule.myMethod3({language:'fr',useCaching:false}); //fr
 
 ```
 
+commoJs Modules
+在过去的一两年里面，你可能就已经听说过CommonJS-一个志愿者工作群体设计，原型和规范化的javascript API.目前为止，他们已经制定了模块和软件包的标准。
+CommonJS AMD建议指定简单的API 来声明module，它可以被使用在同步的和异步加载的浏览器的script标签。
+他们的模块模式是相当整洁的，我把它看成一种可靠的通往模块化系统的可靠的一步。
+
+从一个结构的角度来看，一个CommonJS的module是javascript的一个可以重用的片段，它可以导出具体的对象，对任何独立的代码都是可用的。module的格式作为js的标准模块格式变得无处不在。有大量的教程在实施CommonJS模块，但在一个更高的水平，基本包含两个主要的部分：一个export对象，就是包含了module希望对其他module可用的一些对象。和一个requeried方法，modules模块可用于导入其他模块的输出。
+```js
+    /*
+    Example of achieving compatibility with AMD and standard CommonJS by putting boilerplate around the standard CommonJS module format:
+    */
+     
+    (function(define){
+    define(function(require,exports){
+    // module contents
+     var dep1 = require("dep1");
+     exports.someExportedFunction = function(){...};
+     //...
+    });
+    })(typeof define=="function"?define:function(factory){factory(require,exports)});
+```
+
+    这里有大量的javascript库来处理加载在CommonJS模块格式，但我个人的参照就是RequeriedJS。一个完整教程关于Requeired 在这个教程的范围之外建议你去读James Burke's ScriptJunkie：链接https://msdn.microsoft.com/en-us/magazine/ff943568。
+    我知道大量的人们也爱Yabble。
+    
+    从box里，RequeiredJS提供了一些方法来减轻我们如何用wrapper创建静态模块，而且草拟一个modules极其简单因为支持异步加载。
+    按照这个方法可以简单地加载modules和它们的依赖。一旦可使用，就执行modules的body内容。
+    
+    有一些developers然而，表示，CommonJS modules不适合浏览器。原因是他们没有一些有水平的服务配置的帮助就不能通过script标签加载。我们可以想象有一个库编码图像成ASCII可能会导出一个方法：encodeToASCII。一个模块基于这个可能类似：
+    ```js
+   var encodeToASCII = require("encoder").encodeToASCII;
+   exports.encodeSomeSource = function(){
+        //process then call encodeToASCII
+    }
+    ```这种场景类型不会和script标签就有用因为范围没有被包围，意味着encodeToASCII方法会被和windows系着，required不会像这样被定义，还有它的输出可能会为每个module独立创建。一个客户端与服务器端库一起协助或使用XHR请求eval（）加载脚本的库可以但是容易处理它。
+    使用requeiredJS，module可以被重写如下：
+    ```js
+        define(function(require, exports, module) {
+        var encodeToASCII = require("encoder").encodeToASCII;
+        exports.encodeSomeSource = function(){
+                //process then call encodeToASCII
+        }
+    });
+    ```
+    对于developers可能仅仅依赖javascript，CommonJS是一个很优秀的途径走下去。。我真的只覆盖了冰山一角而CommonJS wiki和sitepen拥有许多资源，如果你想进一步阅读。但花更多的时间来理解它。。
+    
