@@ -199,7 +199,8 @@ CommonJS AMD建议指定简单的API 来声明module，它可以被使用在同�
     加载。
     按照这个方法可以简单地加载modules和它们的依赖。一旦可使用，就执行modules的body内容。
     
-    有一些developers然而，表示，CommonJS modules不适合浏览器。原因是他们没有一些有水平的服务配置的帮助就不能通过script标签加载。我们可以想象有一
+    有一些developers然而，表示，CommonJS modules不适合浏览器。原因是他们没有一些有水平的服务配置的帮助就不能通过script标签加
+    载。我们可以想象有一
     个库编码图
     像成ASCII可能会导出一个方法：encodeToASCII。一个模块基于这个可能类似：
     ```js
