@@ -192,7 +192,8 @@ CommonJS AMD建议指定简单的API 来声明module，它可以被使用在同�
 
     这里有大量的javascript库来处理加载在CommonJS模块格式，但我个人的参照就是RequeriedJS。
     一个完整教程关于
-    Requeired 在这个教程的范围之外建议你去读James Burke's ScriptJunkie：链接https://msdn.microsoft.com/en-us/magazine/ff943568。
+    Requeired 在这个教程的范围之外建议你去读James Burke's
+    ScriptJunkie：链接https://msdn.microsoft.com/en-us/magazine/ff943568。
     我知道大量的人们也爱Yabble。
     
     从box里，RequeiredJS提供了一些方法来减轻我们如何用wrapper创建静态模块，而且草拟一个modules极其简单因为
