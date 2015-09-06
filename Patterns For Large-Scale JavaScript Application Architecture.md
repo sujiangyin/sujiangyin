@@ -15,7 +15,8 @@ b)module不要直接和module交流。这个有助于阻止应用程序发生错
 
 然而，如果你有办法决定一个module可以在系统里做什么的时候难道不会有很大的帮助吗？例如，如果我知道我已经在我的
 系统里限制了权限而不允许一个公开聊天的窗口小部件和一个后台module对接，或者一个有数据库写的权限得到module
-对接，我们可以限制有人利用我已经在窗口小部件传递一些xss的漏洞的机会。modules不应该有权限进入任何东西。他们
+对接，我们可以限制有人利用我已经在窗口小部件传递一些xss的漏洞的机会。mo
+dules不应该有权限进入任何东西。他们
 可能在大多数当前的架构，但
 他们真的需要吗？
 
@@ -211,7 +212,9 @@ CommonJS AMD建议指定简单的API 来声明module，它可以被使用在同�
    exports.encodeSomeSource = function(){
         //process then call encodeToASCII
     }
+    
     ```
+    
     这种场景类型不会和script标签就有用因为范围没有被包围，意味着encodeToASCII方法会被和windows
     系着，required不
     会像这样被定义，还有它的输出可能会为每个module独立创建。一个客户端与服务器端库一起协助或使用XHR
