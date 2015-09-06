@@ -144,4 +144,6 @@ var myModule = {
 myModule.myMethod(); //I can haz functionality
 myModule.myMethod2(); //outputs enabled
 myModule.myMethod3({language:'fr',useCaching:false}); //fr
+
 ```
+
