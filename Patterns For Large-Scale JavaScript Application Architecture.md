@@ -211,7 +211,8 @@ CommonJS AMD建议指定简单的API 来声明module，它可以被使用在同�
    exports.encodeSomeSource = function(){
         //process then call encodeToASCII
     }
-    ```这种场景类型不会和script标签就有用因为范围没有被包围，意味着encodeToASCII方法会被和windows
+    ```
+    这种场景类型不会和script标签就有用因为范围没有被包围，意味着encodeToASCII方法会被和windows
     系着，required不
     会像这样被定义，还有它的输出可能会为每个module独立创建。一个客户端与服务器端库一起协助或使用XHR
     请求eval（）加
