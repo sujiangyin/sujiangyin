@@ -30,7 +30,7 @@
 效果
 ```js
 
-ISBN	   Title	    Price
-3476896	 My first  HTML	$53
-2489604	 My first  CSS	$47
+ISBN	    Title	    Price
+3476896	   My first  HTML	$53
+2489604	   My first  CSS	$47
 ```
