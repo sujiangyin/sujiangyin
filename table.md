@@ -29,3 +29,5 @@
 ```
 效果：
 http://www.w3school.com.cn/tiy/t.asp?f=html_colgroup_test
+所有主流浏览器都支持 <colgroup> 标签。
+Firefox、Chrome 以及 Safari 仅支持 colgroup 元素的 span 和 width 属性。
