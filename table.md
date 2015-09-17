@@ -27,10 +27,5 @@
 </html>
 
 ```
-效果
-```js
-
-ISBN	    Title	    Price
-3476896	   My first  HTML	$53
-2489604	   My first  CSS	$47
-```
+效果：
+http://www.w3school.com.cn/tiy/t.asp?f=html_colgroup_test
