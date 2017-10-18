@@ -50,6 +50,7 @@ Vue:
 
 React:
 ```js
+import Style from  './style.css';  
 var Test = React.createClass({
             getInitialState: function() {
                 return {
