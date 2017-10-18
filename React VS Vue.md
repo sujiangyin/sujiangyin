@@ -71,6 +71,7 @@ ReactDOM.render(
 );
 ```
 从上面简单的demo看出，
+
 ###vue对样式，js，模板html的区分更加清晰，做到更独立的抽象；而react的使用jsx语法，将js和模板杂糅在一起，css外部导入。
 
 ###vue一个页面抽象为一个组件，react是一个React.createClass创建一个组件。均是组件化思维，且节点在未渲染之前都是虚拟dom的思想
